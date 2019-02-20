@@ -4,6 +4,8 @@ import pandas as pd
 import tensorflow as tf
 import random
 
+## TEST
+
 preprocessing_dict = {'resize_shape':[512, 512],
                       'rotate':True,
                       'rotate_fix':True,
