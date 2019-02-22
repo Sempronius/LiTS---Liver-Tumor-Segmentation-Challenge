@@ -6,9 +6,6 @@ import os
 
 trainImage = "/home/ryan/Documents/LiTS_data/Patch_Image_Mask/Image"
 trainLiverMask = "/home/ryan/Documents/LiTS_data/Patch_Image_Mask/MaskLiver"
-
-
-################# NEED TO GET MASK FOR TUMOR.... LOOK at MASK LIVER AND see if you can figure out how to get it. 
 trainTumorMask = "/home/ryan/Documents/LiTS_data/Patch_Image_Mask/MaskTumor"
 
 
@@ -173,9 +170,9 @@ def gen_image_mask(srcimg, seg_image, index, shape, numberxy, numberz):
 
 
 def preparetraindata():
-    #for i in range(0, 131, 1):
-    # my program crashed at 93, so we start over at 93.
-    for i in range(93, 131, 1):
+
+    for i in range(0, 131, 1):
+
         seg = sitk.ReadImage("/home/ryan/Documents/LiTS_data/training_1_2/segmentation-" + str(i) + ".nii", sitk.sitkUInt8)
         segimg = sitk.GetArrayFromImage(seg)
         src = load_itk("/home/ryan/Documents/LiTS_data/training_1_2/volume-" + str(i) + ".nii")
