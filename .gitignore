@@ -7,3 +7,5 @@ Created on Thu Feb 21 22:56:32 2019
 """
 
 log/
+LiTS/data_input/MaskLiver.csv
+LiTS/data_input/Image.csv
