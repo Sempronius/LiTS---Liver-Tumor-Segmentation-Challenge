@@ -4,9 +4,12 @@ import numpy as np
 import cv2
 import os
 
-trainImage = "D:\Data\LIST\\3dPatchdata_12812864\Image"
-trainLiverMask = "D:\Data\LIST\\3dPatchdata_12812864\MaskLiver"
-trainTumorMask = "D:\Data\LIST\\3dPatchdata_12812864\MaskTumor"
+trainImage = "/home/ryan/Documents/LiTS_data/Patch_Image_Mask/Image"
+trainLiverMask = "/home/ryan/Documents/LiTS_data/Patch_Image_Mask/MaskLiver"
+
+
+################# NEED TO GET MASK FOR TUMOR.... LOOK at MASK LIVER AND see if you can figure out how to get it. 
+trainTumorMask = "/home/ryan/Documents/LiTS_data/Patch_Image_Mask/MaskTumor"
 
 
 def getRangImageDepth(image):
@@ -139,7 +142,7 @@ def load_itk(filename):
     itkimage = rescalFilt.Execute(sitk.Cast(sitk.ReadImage(filename), sitk.sitkFloat32))
     return itkimage
 
-
+sub_masks
 def gen_image_mask(srcimg, seg_image, index, shape, numberxy, numberz):
     # step 1 get mask effective range(startpostion:endpostion)
     startpostion, endpostion = getRangImageDepth(seg_image)
@@ -156,8 +159,8 @@ def gen_image_mask(srcimg, seg_image, index, shape, numberxy, numberz):
         sub_masks = sub_liverimages.astype(np.float32)
         sub_masks = np.clip(sub_masks, 0, 255).astype('uint8')
         if np.max(sub_masks[j, :, :, :]) == 255:
-            filepath = trainImage + "\\" + str(index) + "_" + str(j) + "\\"
-            filepath2 = trainLiverMask + "\\" + str(index) + "_" + str(j) + "\\"
+            filepath = trainImage + "/" + str(index) + "_" + str(j) + "/"
+            filepath2 = trainLiverMask + "/" + str(index) + "_" + str(j) + "/"
             if not os.path.exists(filepath) and not os.path.exists(filepath2):
                 os.makedirs(filepath)
                 os.makedirs(filepath2)
@@ -170,10 +173,12 @@ def gen_image_mask(srcimg, seg_image, index, shape, numberxy, numberz):
 
 
 def preparetraindata():
-    for i in range(0, 131, 1):
-        seg = sitk.ReadImage("D:\Data\LIST\src_data\segmentation-" + str(i) + ".nii", sitk.sitkUInt8)
+    #for i in range(0, 131, 1):
+    # my program crashed at 93, so we start over at 93.
+    for i in range(93, 131, 1):
+        seg = sitk.ReadImage("/home/ryan/Documents/LiTS_data/training_1_2/segmentation-" + str(i) + ".nii", sitk.sitkUInt8)
         segimg = sitk.GetArrayFromImage(seg)
-        src = load_itk("D:\Data\LIST\src_data\\volume-" + str(i) + ".nii")
+        src = load_itk("/home/ryan/Documents/LiTS_data/training_1_2/volume-" + str(i) + ".nii")
         srcimg = sitk.GetArrayFromImage(src)
 
         seg_liverimage = segimg.copy()

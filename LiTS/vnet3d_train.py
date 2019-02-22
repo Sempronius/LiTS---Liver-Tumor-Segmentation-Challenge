@@ -16,8 +16,8 @@ def train():
     Preprocessing for dataset
     '''
     # Read  data set (Train data from CSV file)
-    csvmaskdata = pd.read_csv('trainY25625616.csv')
-    csvimagedata = pd.read_csv('trainX25625616.csv')
+    csvmaskdata = pd.read_csv('MaskLiver.csv')
+    csvimagedata = pd.read_csv('Image.csv')
     maskdata = csvmaskdata.iloc[:, :].values
     imagedata = csvimagedata.iloc[:, :].values
     # shuffle imagedata and maskdata together
@@ -26,8 +26,8 @@ def train():
     imagedata = imagedata[perm]
     maskdata = maskdata[perm]
 
-    Vnet3d = Vnet3dModule(256, 256, 16, channels=1, costname=("dice coefficient",))
+    Vnet3d = Vnet3dModule(128, 128, 64, channels=1, costname=("dice coefficient",)) #256-->128  16 -->1
     Vnet3d.train(imagedata, maskdata, "Vnet3d.pd", "log\\diceVnet3d\\", 0.001, 0.7, 10, 1)
 
-
+tf.reset_default_graph()
 train()

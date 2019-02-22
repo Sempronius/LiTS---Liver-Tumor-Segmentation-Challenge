@@ -222,7 +222,7 @@ class Vnet3dModule(object):
             loss = -tf.reduce_mean(intersection / denominator)
         return loss
 
-    def train(self, train_images, train_lanbels, model_path, logs_path, learning_rate,
+    def train(self, train_images, train_labels, model_path, logs_path, learning_rate,
               dropout_conv=0.8, train_epochs=5, batch_size=1):
         if not os.path.exists(logs_path):
             os.makedirs(logs_path)
@@ -247,7 +247,7 @@ class Vnet3dModule(object):
         train_epochs = train_images.shape[0] * train_epochs
         for i in range(train_epochs):
             # get new batch
-            batch_xs_path, batch_ys_path, index_in_epoch = _next_batch(train_images, train_lanbels, batch_size,
+            batch_xs_path, batch_ys_path, index_in_epoch = _next_batch(train_images, train_labels, batch_size,
                                                                        index_in_epoch)
             batch_xs = np.empty((len(batch_xs_path), self.image_depth, self.image_height, self.image_width,
                                  self.channels))
@@ -258,6 +258,7 @@ class Vnet3dModule(object):
                 for _ in os.listdir(batch_xs_path[num][0]):
                     image = cv2.imread(batch_xs_path[num][0] + "/" + str(index) + ".bmp", cv2.IMREAD_GRAYSCALE)
                     label = cv2.imread(batch_ys_path[num][0] + "/" + str(index) + ".bmp", cv2.IMREAD_GRAYSCALE)
+
                     batch_xs[num, index, :, :, :] = np.reshape(image, (self.image_height, self.image_width,
                                                                        self.channels))
                     batch_ys[num, index, :, :, :] = np.reshape(label, (self.image_height, self.image_width,

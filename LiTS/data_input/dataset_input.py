@@ -17,7 +17,7 @@ preprocessing_dict = {'resize_shape':[512, 512],
                       'contrast':True,
                       'contrast_range':[0.5, 1.5]}
 
-image_type = 'jpg'
+image_type = 'bmp' #changed from JPG to bmp, because we have bmp files. 
 
 #TODO how to add image_type and preprocessing_dict as addition arg in map function
 
@@ -118,7 +118,7 @@ def main():
     import cv2
     import numpy as np
 
-    data_iterator = datagenerator('trainX.csv', 'trainY.csv', 1)
+    data_iterator = datagenerator('Image.csv', 'MaskLiver.csv', 1)
     with tf.Session() as sess:
         sess.run(data_iterator.initializer)
         next_batch = data_iterator.get_next()
