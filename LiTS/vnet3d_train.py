@@ -27,7 +27,7 @@ def train():
     imagedata = imagedata[perm]
     maskdata = maskdata[perm]
     Vnet3d = Vnet3dModule(128, 128, 64, channels=1, costname=("dice coefficient",)) #256-->128  16 -->1
-    Vnet3d.train(imagedata, maskdata, "Vnet3d.pd", "log\\diceVnet3d\\", 0.001, 0.7, 10, 1) # This is creating weird directories , I think we need to get rid of some slashes. 
+    Vnet3d.train(imagedata, maskdata, "Vnet3d.pd", "log/diceVnet3d/", 0.001, 0.7, 10, 1) # This is creating weird directories , I think we need to get rid of some slashes. 
 
 tf.reset_default_graph()
 train()

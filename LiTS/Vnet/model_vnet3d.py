@@ -226,10 +226,10 @@ class Vnet3dModule(object):
               dropout_conv=0.8, train_epochs=5, batch_size=1):
         if not os.path.exists(logs_path):
             os.makedirs(logs_path)
-        if not os.path.exists(logs_path + "model\\"):
-            os.makedirs(logs_path + "model\\")
+        if not os.path.exists(logs_path + "model/"):
+            os.makedirs(logs_path + "model/")
         #model_path = logs_path + "model\\" + model_path # this doesn't make sense.
-        model_path = logs_path + "model\\"
+        model_path = logs_path + "model/"
         train_op = tf.train.AdamOptimizer(self.lr).minimize(self.cost)
 
         init = tf.global_variables_initializer()
@@ -279,7 +279,7 @@ class Vnet3dModule(object):
                                                                  self.lr: learning_rate,
                                                                  self.phase: 1,
                                                                  self.drop: dropout_conv})
-                print('epochs %d training_loss ,Training_accuracy => %.5f,%.5f ' % (i, train_loss, train_accuracy))
+                print('epochs %d Training_loss ,Training_accuracy => %.5f,%.5f ' % (i, train_loss, train_accuracy))
 
                 pred = sess.run(self.Y_pred, feed_dict={self.X: batch_xs,
                                                         self.Y_gt: batch_ys,

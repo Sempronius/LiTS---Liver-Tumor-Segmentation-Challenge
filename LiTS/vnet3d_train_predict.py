@@ -1,3 +1,8 @@
+
+#### All this code needs to be modified. We need to modify for LiTS.
+##### Neeed to probably do some kind of 
+
+
 from promise2012.Vnet.model_vnet3d import Vnet3dModule
 from promise2012.Vnet.util import convertMetaModelToPbModel
 import numpy as np
