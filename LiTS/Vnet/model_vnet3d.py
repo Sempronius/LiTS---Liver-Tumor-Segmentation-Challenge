@@ -228,11 +228,12 @@ class Vnet3dModule(object):
             os.makedirs(logs_path)
         if not os.path.exists(logs_path + "model\\"):
             os.makedirs(logs_path + "model\\")
-        model_path = logs_path + "model\\" + model_path
+        #model_path = logs_path + "model\\" + model_path # this doesn't make sense.
+        model_path = logs_path + "model\\"
         train_op = tf.train.AdamOptimizer(self.lr).minimize(self.cost)
 
         init = tf.global_variables_initializer()
-        saver = tf.train.Saver(tf.all_variables(), max_to_keep=10)
+        saver = tf.train.Saver(tf.global_variables(scope=None), max_to_keep=10) # changed from tf.all_variables()
 
         tf.summary.scalar("loss", self.cost)
         tf.summary.scalar("accuracy", self.accuracy)
@@ -286,16 +287,17 @@ class Vnet3dModule(object):
                                                         self.drop: 1})
 
                 gt = np.reshape(batch_xs[0], (self.image_depth, self.image_height, self.image_width))
+
                 gt = gt.astype(np.float32)
-                save_images(gt, [4, 4], path=logs_path + 'src_%d_epoch.png' % (i))
+                save_images(gt, [8, 8], path=logs_path + 'src_%d_epoch.png' % (i)) # changed from [4 4]
 
                 gt = np.reshape(batch_ys[0], (self.image_depth, self.image_height, self.image_width))
                 gt = gt.astype(np.float32)
-                save_images(gt, [4, 4], path=logs_path + 'gt_%d_epoch.png' % (i))
+                save_images(gt, [8, 8], path=logs_path + 'gt_%d_epoch.png' % (i)) # changed from [4 4]
 
                 result = np.reshape(pred[0], (self.image_depth, self.image_height, self.image_width))
                 result = result.astype(np.float32)
-                save_images(result, [4, 4], path=logs_path + 'predict_%d_epoch.png' % (i))
+                save_images(result, [8, 8], path=logs_path + 'predict_%d_epoch.png' % (i)) # changed from [4 4]
 
                 save_path = saver.save(sess, model_path, global_step=i)
                 print("Model saved in file:", save_path)

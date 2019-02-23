@@ -165,6 +165,8 @@ def resnet_Add(x1, x2):
     return residual_connection
 
 
+
+
 def save_images(images, size, path):
     img = (images + 1.0) / 2.0
     h, w = img.shape[1], img.shape[2]
@@ -172,7 +174,27 @@ def save_images(images, size, path):
     for idx, image in enumerate(images):
         i = idx % size[1]
         j = idx // size[1]
+
         merge_img[j * h:j * h + h, i * w:i * w + w] = image
+
     result = merge_img * 255.
     result = np.clip(result, 0, 255).astype('uint8')
     return cv2.imwrite(path, result)
+
+    #"""Save multiple images with same size into one larger image.
+    #The best size number is
+    #int(max(sqrt(image.shape[0]),sqrt(image.shape[1]))) + 1
+    #Args:
+    #    images (np.ndarray): A batch of image array to be merged with size
+    #        [BATCH_SIZE, HEIGHT, WIDTH, CHANNEL].
+    #    merge_grid (list): List of length 2. The grid size for merge images.
+    #    save_path (str): Path for saving the merged image.
+    #    color (bool): Whether convert intensity image to color image.
+    #    tanh (bool): If True, will normalize the image in range [-1, 1]
+    #        to [0, 1] (for GAN models).
+    #######################***************************************
+    #Example:
+    #    The batch_size is 64, then the size is recommended [8, 8].
+    #    The batch_size is 32, then the size is recommended [6, 6].
+    #########################*************************************
+
